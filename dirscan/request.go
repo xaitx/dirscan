@@ -1,4 +1,4 @@
-package request
+package dirscan
 
 import (
 	"crypto/tls"

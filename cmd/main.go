@@ -7,5 +7,5 @@ import (
 func main() {
 	// Config := Parse()
 	config := dirscan.Parse()
-	dirscan.Scan(config)
+	// dirscan.Run(config)
 }

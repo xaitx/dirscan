@@ -6,12 +6,13 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"time"
 
 	p "golang.org/x/net/proxy"
 )
 
 // 请求函数
-func Request(url string, method string, headers map[string]string, proxy string) (*http.Response, error) {
+func Request(url string, method string, headers map[string]string, timout time.Duration, proxy string) (*http.Response, error) {
 	// 创建请求
 	request, err := http.NewRequest(method, url, nil)
 	if err != nil {
@@ -22,7 +23,12 @@ func Request(url string, method string, headers map[string]string, proxy string)
 		request.Header.Set(k, v)
 	}
 	// 创建客户端
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: timout,
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
 	client.Transport = &http.Transport{}
 
 	// 设置代理

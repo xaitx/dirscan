@@ -6,7 +6,11 @@ import (
 )
 
 func main() {
+	logs.SetFlags(0)
 	config := dirscan.Parse()
-	logs.Info("Start scanning...")
-	logs.Print(config)
+	err := dirscan.Start(config)
+	if err != nil {
+		logs.Fatal(err)
+	}
+
 }
